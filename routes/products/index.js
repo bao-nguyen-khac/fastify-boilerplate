@@ -17,9 +17,7 @@ module.exports = async function (fastify, opts) {
                             type: 'object',
                             properties: {
                                 id: { type: 'number' },
-                                category: { type: 'string' },
-                                title: { type: 'string' },
-                                price: { type: 'number' },
+                                name: { type: 'string' },
                             },
                         },
                     },
@@ -51,9 +49,7 @@ module.exports = async function (fastify, opts) {
                         type: 'object',
                         properties: {
                             id: { type: 'number' },
-                            category: { type: 'string' },
-                            title: { type: 'string' },
-                            price: { type: 'number' },
+                            name: { type: 'string' },
                         },
                     },
                 },
@@ -76,9 +72,7 @@ module.exports = async function (fastify, opts) {
                     description: 'Payload for creating a new Product',
                     type: 'object',
                     properties: {
-                        category: { type: 'string' },
-                        title: { type: 'string' },
-                        price: { type: 'number' },
+                        name: { type: 'string' },
                     },
                 },
                 response: {
@@ -87,21 +81,15 @@ module.exports = async function (fastify, opts) {
                         type: 'object',
                         properties: {
                             id: { type: 'number' },
-                            category: { type: 'string' },
-                            title: { type: 'string' },
-                            price: { type: 'number' },
+                            name: { type: 'string' },
                         },
                     },
                 },
             },
         },
         async (request, reply) => {
-            const { category, title, price } = request.body;
-            const newProduct = await fastify.productsDAO.createProduct(
-                category,
-                title,
-                price
-            );
+            const { name } = request.body;
+            const newProduct = await fastify.productsDAO.createProduct(name);
             reply.code(201).send(newProduct);
         }
     );
@@ -124,9 +112,7 @@ module.exports = async function (fastify, opts) {
                     description: 'Payload for updating a new Product',
                     type: 'object',
                     properties: {
-                        category: { type: 'string' },
-                        title: { type: 'string' },
-                        price: { type: 'number' },
+                        name: { type: 'string' },
                     },
                 },
                 response: {
@@ -135,9 +121,7 @@ module.exports = async function (fastify, opts) {
                         type: 'object',
                         properties: {
                             id: { type: 'number' },
-                            category: { type: 'string' },
-                            title: { type: 'string' },
-                            price: { type: 'number' },
+                            name: { type: 'string' },
                         },
                     },
                 },
@@ -145,13 +129,11 @@ module.exports = async function (fastify, opts) {
         },
         async (request, reply) => {
             const { id } = request.params;
-            const { category, title, price } = request.body;
+            const { name } = request.body;
 
             const updatedProduct = await fastify.productsDAO.updateProduct(
                 id,
-                category,
-                title,
-                price
+                name
             );
 
             return updatedProduct;
